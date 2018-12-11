@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shopping.springmvc.dao.IOrderdetailDao" >
+  <resultMap id="BaseResultMap" type="com.shopping.springmvc.pojo.Order_detail" >
+    <id column="d_id" property="d_id" jdbcType="INTEGER" />
+    <result column="o_id" property="o_id" jdbcType="INTEGER" />
+    <result column="b_id" property="b_id" jdbcType="INTEGER" />
+    <result column="b_name" property="b_name" jdbcType="VARCHAR" />
+    <result column="b_price" property="b_price" jdbcType="INTEGER" />
+    <result column="b_count" property="b_count" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="DATE" />
+    <result column="updatetime" property="updatetime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    a.d_id, a.o_id, a.b_id,b.b_name,b.b_price, a.b_count,a.createtime,a.updatetime
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from order_detail a inner join book b
+    on a.b_id = b.b_id
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from order_detail a inner join book b
+    on a.b_id = b.b_id
+    where a.o_id = #{o_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from order_detail
+    where d_id = #{d_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.shopping.springmvc.pojo.Order_detail" >
+    insert into order_detail (  o_id, b_id, b_count,createtime,updatetime )
+    values ( #{o_id,jdbcType=INTEGER}, #{b_id,jdbcType=INTEGER}, #{b_count,jdbcType=INTEGER}, #{createtime,jdbcType=DATE}, #{updatetime,jdbcType=DATE})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.shopping.springmvc.pojo.Order_detail" >
+    update order_detail
+    set o_id = #{o_id,jdbcType=INTEGER},
+    b_id = #{b_id,jdbcType=INTEGER},
+    b_count = #{b_count,jdbcType=INTEGER},
+    createtime = #{createtime,jdbcType=DATE},
+      updatetime = #{updatetime,jdbcType=DATE}
+    where d_id = #{d_id,jdbcType=INTEGER}
+  </update>
+</mapper>
